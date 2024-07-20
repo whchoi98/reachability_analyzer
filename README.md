@@ -52,14 +52,11 @@ go version
 프로젝트 디렉터리로 이동하여 Go 모듈을 초기화하고 필요한 패키지를 설치합니다:
 
 ```
+# git clone
+git clone https://github.com/whchoi98/reachability_analyzer.git
+
 # 프로젝트 디렉터리로 이동
 cd /path/to/your/project
-
-# Go 모듈 초기화
-go mod init reachability_analyzer
-
-# 필요한 Go 패키지 설치
-go get -u github.com/aws/aws-sdk-go
 
 ```
 
@@ -75,9 +72,9 @@ go run reachability_analyzer.go <region> <source> <destination> <protocol> <port
 각 매개변수는 다음과 같이 대체합니다:
 
 - `<region>`: AWS 리전 (예: `ap-northeast-2`)
-- `<source>`: 소스 IP 주소 또는 도메인 (예: `10.0.0.1`)
+- `<source>`: 소스 IP 주소 (예: `10.0.0.1`) / 소스 IP 주소는 도메인 입력이 불가능합니다.
 - `<destination>`: 목적지 IP 주소 또는 도메인 (예: `example.com`)
-- `<protocol>`: 프로토콜 (예: `tcp`)
+- `<protocol>`: 프로토콜 (예: `tcp/udp`)
 - `<port>`: 포트 번호 (예: `80`)
 
 예시:
