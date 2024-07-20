@@ -74,7 +74,7 @@ go run reachability_analyzer.go <region> <source> <destination> <protocol> <port
 
 각 매개변수는 다음과 같이 대체합니다:
 
-- `<region>`: AWS 리전 (예: `us-east-1`)
+- `<region>`: AWS 리전 (예: `ap-northeast-2`)
 - `<source>`: 소스 IP 주소 또는 도메인 (예: `10.0.0.1`)
 - `<destination>`: 목적지 IP 주소 또는 도메인 (예: `example.com`)
 - `<protocol>`: 프로토콜 (예: `tcp`)
@@ -83,7 +83,7 @@ go run reachability_analyzer.go <region> <source> <destination> <protocol> <port
 예시:
 
 ```
-go run reachability_analyzer.go us-east-1 10.0.0.1 example.com tcp 80
+go run reachability_analyzer.go ap-northeast-2 10.0.0.1 example.com tcp 80
 
 ```
 
