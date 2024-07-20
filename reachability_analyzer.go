@@ -69,7 +69,8 @@ func main() {
 		log.Fatalf("Failed to create network insights path: %v", err)
 	}
 
-	fmt.Printf("Network Insights Path ID: %s\n", *result.NetworkInsightsPath.NetworkInsightsPathId)
+	networkInsightsPathID := *result.NetworkInsightsPath.NetworkInsightsPathId
+	fmt.Printf("Network Insights Path ID: %s\n", networkInsightsPathID)
 
 	analysisResult, err := ec2Svc.StartNetworkInsightsAnalysis(&ec2.StartNetworkInsightsAnalysisInput{
 		NetworkInsightsPathId: result.NetworkInsightsPath.NetworkInsightsPathId,
@@ -91,7 +92,7 @@ func main() {
 
 		analysis := describeResult.NetworkInsightsAnalyses[0]
 		if *analysis.Status == "succeeded" || *analysis.Status == "failed" {
-			visualizeAnalysis(analysis, sourceIP, destinationIP)
+			visualizeAnalysis(analysis, sourceIP, destinationIP, networkInsightsPathID)
 			break
 		}
 
@@ -146,7 +147,7 @@ func isPrivateIP(ip string) bool {
 	return false
 }
 
-func visualizeAnalysis(analysis *ec2.NetworkInsightsAnalysis, sourceIP, destinationIP string) {
+func visualizeAnalysis(analysis *ec2.NetworkInsightsAnalysis, sourceIP, destinationIP, networkInsightsPathID string) {
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, 1, ' ', tabwriter.Debug)
 	fmt.Println("Path Visualization:")
 	fmt.Fprintln(w, "Hop\tComponent ID\tACL Rule\t")
@@ -164,9 +165,12 @@ func visualizeAnalysis(analysis *ec2.NetworkInsightsAnalysis, sourceIP, destinat
 	fmt.Fprintf(w, "Destination\t%s\t\t\n", destinationIP)
 	w.Flush()
 
-	if *analysis.Status == "succeeded" {
-		fmt.Println("\nResult: SUCCESS")
+	fmt.Println("\nReachability status:")
+	if *analysis.NetworkPathFound {
+		fmt.Println("Reachable")
+		fmt.Println("모든 정책이 정상적으로 허용되어 있습니다.")
 	} else {
-		fmt.Println("\nResult: FAILED")
+		fmt.Println("Not reachable")
+		fmt.Printf("Network Insights Path ID: %s 값을 확인해서, Cloud 운영팀으로 연락 주세요.\n", networkInsightsPathID)
 	}
 }
