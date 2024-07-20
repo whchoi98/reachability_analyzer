@@ -16,9 +16,17 @@ brew install awscli
 ### Linux
 
 ```
-curl "<https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip>" -o "awscliv2.zip"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
+source ~/.bashrc
+aws --version
+which aws_completer
+export PATH=/usr/local/bin:$PATH
+source ~/.bash_profile
+complete -C '/usr/local/bin/aws_completer' aws
+source ~/.bashrc
+aws --version
 
 ```
 
